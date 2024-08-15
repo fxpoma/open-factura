@@ -16,3 +16,19 @@ jobs:
     steps:
       - name: Check if PR is a draft
         run: echo "This PR is a draft"
+
+  check-pr-status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Determine PR status
+        id: pr-status
+        run: |
+          if [ "${{ github.event.pull_request.draft }}" = "true" ]; then
+            echo "PR_STATUS=draft" >> $PR_STATUS
+          else
+            echo "PR_STATUS=ready_for_review" >> $PR_STATUS
+          fi
