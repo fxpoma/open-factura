@@ -3,9 +3,16 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
 
 jobs:
-  example_job:
+  check_non_draft_pr:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
     steps:
-      - name: Check if PR is draft
-        if: github.event.pull_request.draft == false
+      - name: Check if PR is not a draft
         run: echo "This PR is not a draft"
+
+  check_draft_pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == true
+    steps:
+      - name: Check if PR is a draft
+        run: echo "This PR is a draft"
